@@ -86,6 +86,7 @@ export const upsertStudentController = async (req, res, next) => {
 
 export const patchStudentController = async (req, res, next) => {
   const { studentId } = req.params;
+  const photo = req.file;
   const result = await updateStudebt(studentId, req.body);
   if (!result) {
     next(createHttpError(404, 'Student not found'));
