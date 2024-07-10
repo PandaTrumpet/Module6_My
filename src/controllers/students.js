@@ -6,6 +6,7 @@ import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 export const getStudentsController = async (req, res, next) => {
   // const students = await getAllStudents();
   // res.json({
@@ -87,7 +88,15 @@ export const upsertStudentController = async (req, res, next) => {
 export const patchStudentController = async (req, res, next) => {
   const { studentId } = req.params;
   const photo = req.file;
-  const result = await updateStudebt(studentId, req.body);
+  let photoUrl;
+  if (photo) {
+    photoUrl = await saveFileToUploadDir(photo);
+  }
+
+  const result = await updateStudebt(studentId, {
+    ...req.body,
+    photo: photoUrl,
+  });
   if (!result) {
     next(createHttpError(404, 'Student not found'));
     return;
@@ -98,3 +107,30 @@ export const patchStudentController = async (req, res, next) => {
     message: 'Alles gut!',
   });
 };
+
+// export const patchStudentController = async (req, res, next) => {
+//   const { studentId } = req.params;
+//   const photo = req.file;
+
+//   let photoUrl;
+
+//   if (photo) {
+//     photoUrl = await saveFileToUploadDir(photo);
+//   }
+
+//   const result = await updateStudent(studentId, {
+//     ...req.body,
+//     photo: photoUrl,
+//   });
+
+//   if (!result) {
+//     next(createHttpError(404, 'Student not found'));
+//     return;
+//   }
+
+//   res.json({
+//     status: 200,
+//     message: `Successfully patched a student!`,
+//     data: result.student,
+//   });
+// };
