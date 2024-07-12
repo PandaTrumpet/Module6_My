@@ -7,6 +7,9 @@ import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { env } from '../utils/env.js';
+
 export const getStudentsController = async (req, res, next) => {
   // const students = await getAllStudents();
   // res.json({
@@ -36,6 +39,11 @@ export const getStudentsController = async (req, res, next) => {
 
 export const getStudentByIdController = async (req, res, next) => {
   const { studentId } = req.params;
+  console.log(studentId);
+  if (!studentId) {
+    next(createHttpError(401, 'Ni'));
+  }
+  // const { _id: userId } = req.user;
   const student = await getStudentById(studentId);
   // if (!student) {
   //   res.status(404).json({ message: 'Student not found' });
@@ -85,26 +93,57 @@ export const upsertStudentController = async (req, res, next) => {
   });
 };
 
+// export const patchStudentController = async (req, res, next) => {
+//   const { studentId } = req.params;
+//   const photo = req.file;
+//   let photoUrl;
+//   if (photo) {
+//     photoUrl = await saveFileToUploadDir(photo);
+//   }
+
+//   const result = await updateStudebt(studentId, {
+//     ...req.body,
+//     photo: photoUrl,
+//   });
+//   if (!result) {
+//     next(createHttpError(404, 'Student not found'));
+//     return;
+//   }
+//   res.json({
+//     status: 200,
+//     data: result.student,
+//     message: 'Alles gut!',
+//   });
+// };
+
 export const patchStudentController = async (req, res, next) => {
   const { studentId } = req.params;
   const photo = req.file;
+
   let photoUrl;
+
   if (photo) {
-    photoUrl = await saveFileToUploadDir(photo);
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
   }
 
   const result = await updateStudebt(studentId, {
     ...req.body,
     photo: photoUrl,
   });
+
   if (!result) {
     next(createHttpError(404, 'Student not found'));
     return;
   }
+
   res.json({
     status: 200,
+    message: `Successfully patched a student!`,
     data: result.student,
-    message: 'Alles gut!',
   });
 };
 
