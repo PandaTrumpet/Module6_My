@@ -1,4 +1,5 @@
 import path from 'node:path';
+
 export const SORT_ORDER = {
   ASC: 'asc',
   DESC: 'desc',
@@ -11,22 +12,22 @@ export const ROLES = {
   PARENT: 'parent',
 };
 
+// export const SMTP = {
+//   SMTP_HOST: 'SMTP_HOST',
+//   SMTP_PORT: 'SMTP_PORT',
+//   SMTP_USER: 'SMTP_USER',
+//   SMTP_PASSWORD: 'SMTP_PASSWORD',
+//   SMTP_FROM: 'SMTP_FROM',
+//   JWT_SECRET: ' JWT_SECRET',
+//   APP_DOMAIN: 'APP_DOMAIN',
+// };
 export const SMTP = {
   SMTP_HOST: 'SMTP_HOST',
   SMTP_PORT: 'SMTP_PORT',
   SMTP_USER: 'SMTP_USER',
   SMTP_PASSWORD: 'SMTP_PASSWORD',
   SMTP_FROM: 'SMTP_FROM',
-  JWT_SECRET: ' JWT_SECRET',
-  APP_DOMAIN: 'APP_DOMAIN',
-
-  // SMTP_HOST: 'smtp-relay.brevo.com',
-  // SMTP_PORT: 587,
-  // SMTP_USER: '782781001@smtp-brevo.com',
-  // SMTP_PASSWORD: 'IK305jPXmWnYLpDz',
-  // SMTP_FROM: 'dsavontrumpet@gmail.com',
 };
-
 //
 //
 //

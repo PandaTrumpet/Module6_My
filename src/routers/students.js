@@ -32,8 +32,9 @@ router.get(
 router.post(
   '/',
   checkRoles(ROLES.TEACHER),
-  validateBody(createStudentSchema),
   upload.single('photo'), // додаємо цю middleware
+  validateBody(createStudentSchema),
+
   ctrlWrapper(createStudentController),
 );
 
@@ -45,15 +46,17 @@ router.delete(
 router.put(
   '/:studentId',
   checkRoles(ROLES.TEACHER),
-  validateBody(createStudentSchema),
   upload.single('photo'), // додаємо цю middleware
+  validateBody(createStudentSchema),
+
   ctrlWrapper(upsertStudentController),
 );
 router.patch(
   '/:studentId',
   checkRoles(ROLES.TEACHER, ROLES.PARENT),
-  validateBody(updateStudentSchema),
   upload.single('photo'), // додаємо цю middleware
+  validateBody(updateStudentSchema),
+
   ctrlWrapper(patchStudentController),
 );
 
