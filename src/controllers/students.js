@@ -93,29 +93,6 @@ export const upsertStudentController = async (req, res, next) => {
   });
 };
 
-// export const patchStudentController = async (req, res, next) => {
-//   const { studentId } = req.params;
-//   const photo = req.file;
-//   let photoUrl;
-//   if (photo) {
-//     photoUrl = await saveFileToUploadDir(photo);
-//   }
-
-//   const result = await updateStudebt(studentId, {
-//     ...req.body,
-//     photo: photoUrl,
-//   });
-//   if (!result) {
-//     next(createHttpError(404, 'Student not found'));
-//     return;
-//   }
-//   res.json({
-//     status: 200,
-//     data: result.student,
-//     message: 'Alles gut!',
-//   });
-// };
-
 export const patchStudentController = async (req, res, next) => {
   const { studentId } = req.params;
   const photo = req.file;
@@ -146,30 +123,3 @@ export const patchStudentController = async (req, res, next) => {
     data: result.student,
   });
 };
-
-// export const patchStudentController = async (req, res, next) => {
-//   const { studentId } = req.params;
-//   const photo = req.file;
-
-//   let photoUrl;
-
-//   if (photo) {
-//     photoUrl = await saveFileToUploadDir(photo);
-//   }
-
-//   const result = await updateStudent(studentId, {
-//     ...req.body,
-//     photo: photoUrl,
-//   });
-
-//   if (!result) {
-//     next(createHttpError(404, 'Student not found'));
-//     return;
-//   }
-
-//   res.json({
-//     status: 200,
-//     message: `Successfully patched a student!`,
-//     data: result.student,
-//   });
-// };
